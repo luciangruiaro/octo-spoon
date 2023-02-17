@@ -43,8 +43,19 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>6.0.4</version>
 		</dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20210307</version>
+        </dependency>
 
-	</dependencies>
+		<dependency>
+			<groupId>com.github.pengrad</groupId>
+			<artifactId>java-telegram-bot-api</artifactId>
+			<version>6.3.0</version>
+		</dependency>
+
+    </dependencies>
 
 	<build>
 		<plugins>
