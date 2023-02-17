@@ -1,19 +1,26 @@
 package com.octospoon.octospoon.client;
 
 import com.octospoon.octospoon.helper.GetReqCall;
+import com.octospoon.octospoon.helper.MessageParser;
 import com.pengrad.telegrambot.TelegramBot;
+import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.GetUpdates;
 import com.pengrad.telegrambot.response.GetUpdatesResponse;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.util.List;
 
 @Service
 public class TelegramAPI {
 
-    private TelegramBot bot = new TelegramBot(TelegramConfig.TOKEN);
+    private final TelegramBot bot = new TelegramBot(TelegramConfig.TOKEN);
+    @Autowired
+    MessageParser messageParser;
+    private Integer lastUpdateId = 0;
 
     public void senMessage(String chatId, String message) throws Exception {
         JSONObject bodyParams = new JSONObject();
@@ -35,17 +42,20 @@ public class TelegramAPI {
     }
 
     public void getUpdates() {
-        GetUpdates getUpdates = new GetUpdates().limit(100).offset(0).timeout(0);
+//        GetUpdates getUpdates = new GetUpdates().limit(100).offset(0).timeout(0);
+//        GetUpdatesResponse updatesResponse = bot.execute(getUpdates);
 
-        GetUpdatesResponse updatesResponse = bot.execute(getUpdates);
-        List<Update> updates = updatesResponse.updates();
-        for (Update update : updates) {
-            System.out.println(update.message());
-        }
+        bot.setUpdatesListener(new UpdatesListener() {
+            @Override
+            public int process(List<Update> updates) {
+                for (Update update : updates) {
+                    messageParser.printMessage(update);
+                }
+                return UpdatesListener.CONFIRMED_UPDATES_ALL;
+            }
+        });
+
     }
 
-    public boolean areThereUodates() {
-        return true;
-    }
 
 }

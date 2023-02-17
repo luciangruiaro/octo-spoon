@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.Clock;
 
-//@Configuration
 @EnableScheduling
 @Component
 public class Agent {
@@ -17,8 +16,14 @@ public class Agent {
     @Autowired
     TelegramAPI telegramAPI;
 
-    @Scheduled(fixedDelay = 5000)
+    //    @Scheduled(fixedDelay = 30000)
     public void repetitiveMessage() throws Exception {
         telegramAPI.senMessage(TelegramConfig.MY_CHAT_ID, "Hello, now the time is: " + Clock.systemUTC().instant());
     }
+
+    @Scheduled(fixedDelay = 30000)
+    public void catchNewMessages() {
+        telegramAPI.getUpdates();
+    }
+
 }
