@@ -1,26 +1,20 @@
 package com.octospoon.octospoon.helper;
 
-import com.pengrad.telegrambot.model.Update;
+import com.pengrad.telegrambot.model.Message;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MessageParser {
 
-    public void printMessage(Update update) {
+    public void printMessage(String messageType, Message message) {
 
         StringBuilder hrMessage = new StringBuilder();
-//        hrMessage.append("updateId: ");
-//        hrMessage.append(update.updateId());
-//        hrMessage.append(" | ");
-//        hrMessage.append("username: ");
-        hrMessage.append(update.message().chat().username());
+        hrMessage.append(messageType);
+        hrMessage.append(message.chat().id());
+        hrMessage.append(", ");
+        hrMessage.append(message.chat().username());
         hrMessage.append(" -> ");
-//        hrMessage.append("message_id: ");
-//        hrMessage.append(update.message().messageId());
-//        hrMessage.append(" | ");
-//        hrMessage.append("text: ");
-        hrMessage.append(update.message().text());
-
+        hrMessage.append(message.text());
         System.out.println(hrMessage);
     }
 
