@@ -1,0 +1,36 @@
+### SOLR
+docker run -p 8983:8983 -t solr
+
+mkdir solrdata
+
+docker run -d -v "$PWD/solrdata:/var/solr" -p 8983:8983 --name demo_solr solr solr-precreate octo-spoon
+
+wget -O pacific.html https://en.wikipedia.org/wiki/Pacific_Ocean
+
+docker run --rm -v "$PWD/solrdata:/var/solr" --network=host solr post -c octo-spoon "$PWD/solrdata/pacific.html"
+docker run -d -p 8983:8983 --name my_solr solr
+docker exec -it my_solr solr create_core -c octo-spoon
+
+
+
+# start Solr. Listens on localhost:8983
+docker run --name my_solr -p 8983:8983 solr solr-precreate octo-spoon
+
+
+# get data
+mkdir mydata
+wget -O mydata/books.csv https://raw.githubusercontent.com/apache/solr/main/solr/example/exampledocs/books.csv
+docker run --rm -v "$PWD/mydata:/mydata" --network=host solr post -c octo-spoon /mydata/books.csv
+
+wget -O mydata/pacific.txt https://en.wikipedia.org/wiki/Pacific_Ocean
+docker run --rm -v "$PWD/mydata:/mydata" --network=host solr post -c octo-spoon /mydata/
+
+
+
+curl --request POST --url http://localhost:8983/api/collections --header 'Content-Type: application/json' --data '{
+  "create": {
+    "name": "octo-spoon",
+    "numShards": 1,
+    "replicationFactor": 1
+  }
+}

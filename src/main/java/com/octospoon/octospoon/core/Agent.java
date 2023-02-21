@@ -4,7 +4,7 @@ import com.octospoon.octospoon.client.TelegramConfig;
 import com.octospoon.octospoon.client.TelegramDelivery;
 import com.octospoon.octospoon.contacts.Conversation;
 import com.octospoon.octospoon.core.knowledge.KnowledgeBase;
-import com.octospoon.octospoon.core.reactive.DecisionMaker;
+import com.octospoon.octospoon.core.lifecycle.DecisionMaker;
 import com.octospoon.octospoon.helper.MessageParser;
 import com.pengrad.telegrambot.model.Message;
 import org.springframework.beans.factory.annotation.Autowired;

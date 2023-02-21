@@ -1,4 +1,4 @@
-package com.octospoon.octospoon.core.reactive;
+package com.octospoon.octospoon.core.lifecycle;
 
 import edu.stanford.nlp.pipeline.CoreDocument;
 import edu.stanford.nlp.pipeline.CoreSentence;
