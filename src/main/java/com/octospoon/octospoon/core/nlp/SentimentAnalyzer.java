@@ -1,4 +1,4 @@
-package com.octospoon.octospoon.core.lifecycle;
+package com.octospoon.octospoon.core.nlp;
 
 import edu.stanford.nlp.pipeline.CoreDocument;
 import edu.stanford.nlp.pipeline.CoreSentence;
@@ -8,12 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class DecisionMaker {
-
-
-    public boolean isInitialMessage(String text) {
-        return text.contains("hi") || text.contains("hello");
-    }
+public class SentimentAnalyzer {
 
     public String sentimentAnalyzer(String text) {
         StanfordCoreNLP stanfordCoreNLP = Pipeline.getPipeline();
@@ -29,5 +24,4 @@ public class DecisionMaker {
         }
         return retSentiment;
     }
-
 }

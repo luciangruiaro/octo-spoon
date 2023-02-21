@@ -1,4 +1,4 @@
-package com.octospoon.octospoon.core.lifecycle;
+package com.octospoon.octospoon.core.nlp;
 
 import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 

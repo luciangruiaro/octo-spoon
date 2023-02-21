@@ -1,4 +1,4 @@
-package com.octospoon.octospoon.core.knowledge;
+package com.octospoon.octospoon.config;
 
 import org.springframework.context.annotation.Configuration;
 
