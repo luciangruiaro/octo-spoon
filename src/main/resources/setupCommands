@@ -5,3 +5,27 @@ docker run --name my_solr -p 8983:8983 solr solr-precreate octo-spoon
 
 ### Maria Db
 docker run --name mariadbtest -e MYSQL_ROOT_PASSWORD=mypass -p 3306:3306 -d docker.io/library/mariadb:10.4
+
+### Metabase
+docker pull metabase/metabase:latest
+docker run -d -p 3000:3000 --name metabase metabase/metabase
+
+docker run -d -p 3000:3000 \
+  -e "MB_DB_TYPE=mysql" \
+  -e "MB_DB_DBNAME=demo" \
+  -e "MB_DB_PORT=3306" \
+  -e "MB_DB_USER=root" \
+  -e "MB_DB_PASS=mypass" \
+  -e "MB_DB_HOST=localhost" \
+   --name metabase metabase/metabase
+
+
+### Neo4j
+docker pull neo4j
+
+docker run -p7474:7474 -e NEO4J_AUTH=neo4j/mypass123! neo4j
+
+docker run \
+    --publish=7474:7474 --publish=7687:7687 \
+    --volume=$HOME/neo4j/data:/data \
+    neo4j

@@ -1,5 +1,6 @@
 package com.octospoon.core.lifecycle;
 
+import com.octospoon.core.nlp.SentimentAnalyzer;
 import com.octospoon.helper.TextUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,9 @@ public class DecisionEngine {
     @Autowired
     TextUtils textUtils;
 
+    @Autowired
+    SentimentAnalyzer sentimentAnalyzer;
+
     public boolean isInitialMessage(String text) {
         return decideCurrentCoversationState(text).getPriority() == 0;
     }
@@ -32,6 +36,10 @@ public class DecisionEngine {
             return candidatesState.stream().min(Comparator.comparing(State::getPriority)).orElse(null);
         }
         return flow.getDefaultState();
+    }
+
+    public String sentimentAnalyzerMessage(String inputText) {
+        return "By the way, you mood is now: " + sentimentAnalyzer.sentimentAnalyzer(inputText);
     }
 
 

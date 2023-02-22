@@ -3,9 +3,12 @@ package com.octospoon.contacts;
 
 import jakarta.persistence.*;
 
-@Entity
+import java.io.Serializable;
+
+
 @Table(name = "conversation_lines")
-public class ConversationLine {
+@Entity
+public class ConversationLine implements Serializable {
 
     @Id
     @Column(name = "lineId")
@@ -25,12 +28,20 @@ public class ConversationLine {
 
     private String message;
 
-    public ConversationLine(Long lineId, String chat_id, String userName, String conversationState, String message) {
-        this.lineId = lineId;
+    @Column(name = "messageType")
+
+    private String messageType;
+
+    public ConversationLine() {
+    }
+
+    public ConversationLine(String chat_id, String userName, String conversationState, String message,
+                            String messageType) {
         this.chat_id = chat_id;
         this.userName = userName;
         this.conversationState = conversationState;
         this.message = message;
+        this.messageType = messageType;
     }
 
     public Long getLineId() {
@@ -71,5 +82,13 @@ public class ConversationLine {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getMessageType() {
+        return messageType;
+    }
+
+    public void setMessageType(String messageType) {
+        this.messageType = messageType;
     }
 }

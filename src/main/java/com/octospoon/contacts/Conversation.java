@@ -1,26 +1,22 @@
 package com.octospoon.contacts;
 
 
-import org.springframework.stereotype.Service;
-
 import java.io.Serializable;
 
-@Service
-public class Conversation implements Serializable {
+
+public class Conversation {
 
 
     public String chatId;
 
     public String username;
+    public String conversationState;
 
-    public Conversation() {
-    }
-
-    public Conversation(String chatId, String username) {
+    public Conversation(String chatId, String username, String conversationState) {
         this.chatId = chatId;
         this.username = username;
+        this.conversationState = conversationState;
     }
-
 
     public String getChatId() {
         return chatId;
@@ -36,6 +32,14 @@ public class Conversation implements Serializable {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getConversationState() {
+        return conversationState;
+    }
+
+    public void setConversationState(String conversationState) {
+        this.conversationState = conversationState;
     }
 
 

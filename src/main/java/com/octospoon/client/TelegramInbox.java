@@ -1,6 +1,7 @@
 package com.octospoon.client;
 
 
+import com.octospoon.config.TelegramConfig;
 import com.octospoon.core.Agent;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;

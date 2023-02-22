@@ -1,4 +1,4 @@
-package com.octospoon.client;
+package com.octospoon.config;
 
 import org.springframework.context.annotation.Configuration;
 
