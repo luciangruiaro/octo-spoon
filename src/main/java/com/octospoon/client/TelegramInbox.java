@@ -7,34 +7,35 @@ import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Update;
 import jakarta.annotation.PostConstruct;
+import org.apache.solr.client.solrj.SolrServerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
 public class TelegramInbox {
 
-    @Autowired
-    Agent agent;
     TelegramBot bot = new TelegramBot(TelegramConfig.TOKEN);
 
+    @Autowired
+    Agent agent;
+    // check message inbox
 
     @PostConstruct
-    // check messages inbox
     public void getUnreadMessages() {
         bot.setUpdatesListener(new UpdatesListener() {
             @Override
-            public int process(List<Update> updates) {
-                for (Update update : updates) {
+            public int process(List<Update> list) {
+                for (Update update : list) {
                     try {
                         agent.generateReply(update.message());
                     } catch (Exception e) {
-//                        System.out.printf("warning!");
-                        e.printStackTrace();
+                        System.out.println("warning");
                     }
                 }
-                return UpdatesListener.CONFIRMED_UPDATES_ALL;
+                return -1;
             }
         });
     }

@@ -17,7 +17,9 @@ public class TelegramReq {
     @GetMapping("/hi/{inputMessage}")
     public String hello(@PathVariable("inputMessage") String inputMessage)
             throws Exception {
-        telegramDelivery.sendMessage(new Conversation("185790419", "", "manual"), inputMessage);
+        telegramDelivery.sendMessage(
+                new Conversation("185790419", "", "manual"),
+                inputMessage);
         return "hi";
     }
 

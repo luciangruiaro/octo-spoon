@@ -21,25 +21,23 @@ public class DecisionEngine {
     @Autowired
     SentimentAnalyzer sentimentAnalyzer;
 
-    public boolean isInitialMessage(String text) {
-        return decideCurrentCoversationState(text).getPriority() == 0;
-    }
-
-    public State decideCurrentCoversationState(String text) {
-        List<State> candidatesState = new ArrayList<>();
+    public State decideCurrentConversationState(String text) {
+        List<State> candidateStates = new ArrayList<>();
         for (State state : flow.setupFlow()) {
             if (textUtils.containsAnyWord(text, state.getKeywords())) {
-                candidatesState.add(state);
+                candidateStates.add(state);
             }
         }
-        if (!candidatesState.isEmpty()) {
-            return candidatesState.stream().min(Comparator.comparing(State::getPriority)).orElse(null);
+        if (!candidateStates.isEmpty()) {
+            return candidateStates.stream().
+                    min(Comparator.comparing(State::getPriority)).orElse(null);
         }
         return flow.getDefaultState();
     }
 
     public String sentimentAnalyzerMessage(String inputText) {
-        return "By the way, you mood is now: " + sentimentAnalyzer.sentimentAnalyzer(inputText);
+        return "By the way, you mood is now: "
+                + sentimentAnalyzer.sentimentAnalyzer(inputText);
     }
 
 

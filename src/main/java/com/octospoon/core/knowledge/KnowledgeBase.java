@@ -26,16 +26,21 @@ public class KnowledgeBase {
     @Autowired
     TextUtils textUtils;
 
-
-    public String getDataFromSolr(String inputStr) throws SolrServerException, IOException {
+    public String getdataFromSolr(String inputStr) throws SolrServerException, IOException {
         return solrAPI.solrSearch(inputStr);
     }
 
-    public String searchForMoreKnowledge(String inputText) throws Exception {
-        String keyWord = textUtils.extractWordsAfterAbout(inputText);
-        String newAnswer = textAnalyzer.extractRelevantSentences(wikipedia.wikipediaGetContent(keyWord), keyWord, 1)
-                .get(0);
-        solrAPI.solrIndexer(newAnswer, keyWord);
-        return newAnswer;
+    public String searchForMoreKnowledge(String inputStr) throws Exception {
+        String keyWord = textUtils.extractWordsAfterAbout(inputStr);
+        String answer = textAnalyzer.extractRelevantSentences(
+                wikipedia.wikipediaGetContent(keyWord),
+                keyWord, 1
+        ).get(0);
+
+        solrAPI.solrIndexer(answer, keyWord);
+
+        return answer;
+
     }
+
 }

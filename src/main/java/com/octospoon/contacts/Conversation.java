@@ -1,9 +1,6 @@
 package com.octospoon.contacts;
 
 
-import java.io.Serializable;
-
-
 public class Conversation {
 
 

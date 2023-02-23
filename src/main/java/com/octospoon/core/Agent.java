@@ -5,7 +5,6 @@ import com.octospoon.config.TelegramConfig;
 import com.octospoon.contacts.Conversation;
 import com.octospoon.core.knowledge.KnowledgeBase;
 import com.octospoon.core.lifecycle.DecisionEngine;
-import com.octospoon.core.nlp.SentimentAnalyzer;
 import com.octospoon.helper.MessageParser;
 import com.octospoon.helper.TextUtils;
 import com.octospoon.persistent.RDS;
@@ -19,22 +18,19 @@ import org.springframework.stereotype.Component;
 public class Agent {
 
     @Autowired
-    TelegramDelivery telegramDelivery;
-
-    @Autowired
     DecisionEngine decisionEngine;
-
-    @Autowired
-    SentimentAnalyzer sentimentAnalyzer;
-    @Autowired
-    MessageParser messageParser;
 
     @Autowired
     KnowledgeBase knowledgeBase;
 
     @Autowired
-    TextUtils textUtils;
+    MessageParser messageParser;
 
+    @Autowired
+    TelegramDelivery telegramDelivery;
+
+    @Autowired
+    TextUtils textUtils;
 
     @Autowired
     RDS rds;
@@ -42,17 +38,24 @@ public class Agent {
     String answer;
 
     public void generateReply(Message message) throws Exception {
-
-        String conversationState = decisionEngine.decideCurrentCoversationState(message.text()).getName();
+        String conversationState = decisionEngine.decideCurrentConversationState(
+                message.text()).getName();
 
         Conversation conversation =
-                new Conversation(String.valueOf(message.chat().id()), message.chat().username(), conversationState);
+                new Conversation(
+                        String.valueOf(message.chat().id()),
+                        message.chat().username(),
+                        conversationState
+                );
 
-        // go to branch
         switch (conversationState) {
-            case "Greetings" -> answer = KnowledgeBase.HELLO_MESSAGE;
+            case "Greetings" -> {
+                answer = KnowledgeBase.HELLO_MESSAGE;
+            }
             case "Question" -> {
-                answer = knowledgeBase.getDataFromSolr(textUtils.extractWordsAfterAbout(message.text()));
+                answer = knowledgeBase.getdataFromSolr(
+                        textUtils.extractWordsAfterAbout(message.text())
+                );
                 if (answer.isEmpty()) {
                     answer = KnowledgeBase.DEFAULT_IDK;
                     telegramDelivery.sendMessage(conversation, answer);
@@ -64,11 +67,18 @@ public class Agent {
 
         // print to console
         messageParser.printMessage(TelegramConfig.MESSAGE_RECEIVED, message);
-        // store in RDS
+
+        // save to database
         rds.saveMessage(conversation, answer, TelegramConfig.MESSAGE_RECEIVED);
-        // send the message
-        telegramDelivery.sendMessage(conversation, answer);
-        telegramDelivery.sendMessage(conversation, decisionEngine.sentimentAnalyzerMessage(message.text()));
+
+        // deliver the message
+        telegramDelivery.sendMessage(conversation,
+                answer);
+        telegramDelivery.sendMessage(conversation,
+                decisionEngine.sentimentAnalyzerMessage(message.text())
+        );
+
+
     }
 
 }
