@@ -39,7 +39,7 @@ public class DecisionEngine {
     }
 
     public String sentimentAnalyzerMessage(String inputText) {
-        return "By the way, you mood is now: " + sentimentAnalyzer.sentimentAnalyzer(inputText);
+        return "By the way, your mood is now: " + sentimentAnalyzer.sentimentAnalyzer(inputText);
     }
 
 

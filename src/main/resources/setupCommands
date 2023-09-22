@@ -4,7 +4,8 @@ docker pull solr
 docker run --name my_solr -p 8983:8983 solr solr-precreate octo-spoon
 
 ### Maria Db
-docker run --name mariadbtest -e MYSQL_ROOT_PASSWORD=mypass -p 3306:3306 -d docker.io/library/mariadb:10.4
+docker run --name mariadbtest -e MYSQL_ROOT_PASSWORD=mypass -e MYSQL_DATABASE=demo -p 3306:3306 -d mariadb
+
 
 ### Metabase
 docker pull metabase/metabase:latest

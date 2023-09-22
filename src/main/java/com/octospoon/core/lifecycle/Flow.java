@@ -16,6 +16,7 @@ public class Flow {
         flow.add(new State("Exclamation", 2, new String[]{"!"}, null, null));
         flow.add(new State("Followup", 3, new String[]{"more", "additional", "details"}, null, null));
         flow.add(new State("Closing", 4, new String[]{"bye", "exit", "stop", "quit"}, null, null));
+        flow.add(new State("ai", 5, new String[]{"ai"}, null, null));
 
         return flow;
     }

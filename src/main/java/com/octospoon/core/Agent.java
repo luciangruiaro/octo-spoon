@@ -8,8 +8,10 @@ import com.octospoon.core.lifecycle.DecisionEngine;
 import com.octospoon.core.nlp.SentimentAnalyzer;
 import com.octospoon.helper.MessageParser;
 import com.octospoon.helper.TextUtils;
+import com.octospoon.openAI.Completion;
 import com.octospoon.persistent.RDS;
 import com.pengrad.telegrambot.model.Message;
+import org.springframework.ai.client.AiClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Component;
@@ -40,6 +42,13 @@ public class Agent {
     RDS rds;
 
     String answer;
+    private final AiClient aiClient;
+
+    @Autowired
+    public Agent(AiClient aiClient) {
+        this.aiClient = aiClient;
+    }
+
 
     public void generateReply(Message message) throws Exception {
 
@@ -59,6 +68,7 @@ public class Agent {
                     answer = knowledgeBase.searchForMoreKnowledge(message.text());
                 }
             }
+            case "ai" -> answer = new Completion(aiClient.generate(message.text())).getCompletion();
             default -> answer = KnowledgeBase.DEFAULT_ANSWER;
         }
 

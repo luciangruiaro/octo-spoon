@@ -45,7 +45,12 @@ public class SolrAPI {
 
         ArrayList<String> content = new ArrayList<>();
         for (SolrDocument doc : results) {
-            content.addAll((Collection<? extends String>) doc.getFieldValue("content"));
+            Object fieldValue = doc.getFieldValue("content");
+            if (fieldValue instanceof Collection) {
+                content.addAll((Collection<? extends String>) fieldValue);
+            } else if (fieldValue instanceof String) {
+                content.add((String) fieldValue);
+            }
         }
         solr.close();
         if (!content.isEmpty()) {
